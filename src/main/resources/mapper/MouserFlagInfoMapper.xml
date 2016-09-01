@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.qegoo.seo.dao.IMouserFlagInfoDao">
+
+    <insert id="insertRecommendBrand">
+        insert into um_recommend_brand (supplier_id,picture,content,page, mfs_id, mfs_name, seq, status) values
+        (#{supplierId},#{picture},#{content},#{page}, #{mfsId}, #{mfsName}, #{seq}, #{status})
+    </insert>
+    <select id="findAll" resultType="cn.qegoo.model.flagship.RecommendBrand">
+        select * from um_recommend_brand where supplier_id=#{supplierId} ORDER BY status desc,seq,id desc
+        <if test="limit!=null">
+            limit #{limit}
+        </if>
+    </select>
+    <select id="findById" resultType="cn.qegoo.model.flagship.RecommendBrand">
+        select * from um_recommend_brand where id=#{id}
+    </select>
+
+    <select id="selectRecommendBrand" resultType="cn.qegoo.model.flagship.RecommendBrand">
+        select * from um_recommend_brand where 1=1
+        <if test="mouserInfo.id!=null and mouserInfo.id!='' ">
+            and id=#{mouserInfo.id}
+        </if>
+        <if test="mouserInfo.supplierId!=null and mouserInfo.supplierId!='' ">
+            and supplier_id=#{mouserInfo.supplierId}
+        </if>
+        <if test="mouserInfo.picture!=null and mouserInfo.picture!='' ">
+            and picture=#{mouserInfo.picture}
+        </if>
+        <if test="mouserInfo.content!=null and mouserInfo.content!='' ">
+            and content=#{mouserInfo.content}
+        </if>
+        <if test="mouserInfo.page!=null and mouserInfo.page!='' ">
+            and page=#{mouserInfo.page}
+        </if>
+        <if test="mouserInfo.status!=null and mouserInfo.status!='' ">
+            and status=#{mouserInfo.status}
+        </if>
+        <if test="mouserInfo.mfsName!=null and mouserInfo.mfsName!='' ">
+            and mfs_name=#{mouserInfo.mfsName}
+        </if>
+        <if test="mouserInfo.mfsId!=null and mouserInfo.mfsId!='' ">
+            and mfs_id=#{mouserInfo.mfsId}
+        </if>
+    </select>
+    <update id="updateRecommendBrandById">
+        <![CDATA[
+          UPDATE um_recommend_brand]]>
+        <set>
+            <if test="mouserInfo.supplierId!=null and mouserInfo.supplierId!='' ">
+                supplier_id=#{mouserInfo.supplierId},
+            </if>
+            <if test="mouserInfo.picture!=null and mouserInfo.picture!='' ">
+                picture=#{mouserInfo.picture},
+            </if>
+            <if test="mouserInfo.content!=null and mouserInfo.content!='' ">
+                content=#{mouserInfo.content},
+            </if>
+            <if test="mouserInfo.page!=null and mouserInfo.page!='' ">
+                page=#{mouserInfo.page},
+            </if>
+            <if test="mouserInfo.status!=null and mouserInfo.status!='' ">
+                status=#{mouserInfo.status},
+            </if>
+            <if test="mouserInfo.mfsId!=null and mouserInfo.mfsId!='' ">
+                mfs_id=#{mouserInfo.mfsId},
+            </if>
+            <if test="mouserInfo.mfsName!=null and mouserInfo.mfsName!='' ">
+                mfs_name=#{mouserInfo.mfsName},
+            </if>
+            <if test="mouserInfo.seq!=null and mouserInfo.seq!='' ">
+                seq=#{mouserInfo.seq},
+            </if>
+            updated_time=now(),
+        </set>
+        <![CDATA[
+              WHERE id=#{mouserInfo.id}
+              ]]>
+    </update>
+    <select id="findByUuid" resultType="cn.qegoo.model.oms.UserFlag">
+           select * from um_user_flag where user_uuid=#{uuid}
+    </select>
+    <insert id="insertUserFlag">
+        insert into um_user_flag (user_uuid,supplier_id) values
+        (#{userUuid},#{supplierId})
+    </insert>
+</mapper>

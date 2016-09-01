@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.qegoo.seo.dao.ISeoDao">
+
+
+    <select id="findSeoManageAll" resultType="cn.qegoo.model.seo.SeoManage">
+		SELECT id,url_name urlName,url,status,type,search_model searchModel,weighting,created_time createdTime,updated_time updatedTime,description,title FROM s_seo_manager
+	</select>
+    <select id="findSeoManageByUrlName" resultType="cn.qegoo.model.seo.SeoManage">
+		SELECT id,url_name urlName,url,status,type,search_model searchModel,weighting,created_time createdTime,updated_time updatedTime,description,title FROM s_seo_manager where lower(url_name) like #{urlName}
+	</select>
+    <select id="findSeoManageById" resultType="cn.qegoo.model.seo.SeoManage">
+		SELECT id,url_name urlName,url,status,type,search_model searchModel,weighting,created_time createdTime,updated_time updatedTime,description,title FROM s_seo_manager where id = #{id}
+	</select>
+    <select id="filterSeoMagage" resultType="cn.qegoo.model.seo.SeoManage">
+        SELECT id,url_name urlName,url,status,type,search_model searchModel,weighting,created_time
+        createdTime,updated_time updatedTime,description,title FROM
+        s_seo_manager where 1=1
+        <if test="seoManage.urlName != null and seoManage.urlName != '' ">
+            and url_name=#{seoManage.urlName}
+        </if>
+        <if test="seoManage.searchModel!=null and seoManage.searchModel != '' ">
+            and search_model= #{seoManage.searchModel}
+        </if>
+        <if test="seoManage.status!=null and seoManage.status != ''">
+            and status= #{seoManage.status}
+        </if>
+        <if test="seoManage.weighting!=null and seoManage.weighting != ''">
+            and weighting= #{seoManage.weighting}
+        </if>
+        <if test="seoManage.url!=null and seoManage.url != ''">
+            and url= #{seoManage.url}
+        </if>
+        order by id
+    </select>
+
+
+    <select id="findSeoKeywordAll" resultType="cn.qegoo.model.seo.SeoKeyword">
+		SELECT * FROM s_seo_keyword order by id
+	</select>
+    <select id="findSeoKeywordByName" resultType="cn.qegoo.model.seo.SeoKeyword">
+		SELECT * FROM s_seo_keyword where lower(keyword_name) like #{keywordName}
+	</select>
+    <select id="findSeoKeywordByUrlId" resultType="cn.qegoo.model.seo.SeoKeyword">
+		SELECT * FROM
+		s_seo_keyword WHERE url_id=#{urlId} order by id
+	</select>
+    <select id="filterSeoKeyword" resultType="cn.qegoo.model.seo.SeoKeyword">
+        select * from s_seo_keyword
+        <where>
+            1=1
+            <if test="seoKeyword.keywordName != null and seoKeyword.keywordName != ''">
+                and keyword_name=#{seoKeyword.keywordName}
+            </if>
+            <if test="seoKeyword.urlId!=null and seoKeyword.urlId != ''">
+                and url_id= #{seoKeyword.urlId}
+            </if>
+            <if test="seoKeyword.status!=null and seoKeyword.status != ''">
+                and status= #{seoKeyword.status}
+            </if>
+            order by id
+        </where>
+    </select>
+
+
+    <select id="findSeoResourcesAll" resultType="cn.qegoo.model.seo.SeoResources">
+		SELECT * FROM s_seo_resources order by id
+	</select>
+    <select id="findSeoResourcesByName" resultType="cn.qegoo.model.seo.SeoResources">
+		SELECT * FROM s_seo_resources WHERE lower(resources_name) like #{searchResources}
+	</select>
+    <select id="findSeoResourcesByUrlId" resultType="cn.qegoo.model.seo.SeoResources">
+		SELECT * FROM
+		s_seo_resources WHERE url_id=#{urlId}
+	</select>
+    <select id="filterSeoResources" resultType="cn.qegoo.model.seo.SeoResources">
+        select * from s_seo_resources
+        <where>
+            1=1
+            <if test="seoResources.resourcesName != null and seoResources.resourcesName != ''">
+                and resources_name=#{seoResources.resourcesName}
+            </if>
+            <if test="seoResources.urlId!=0 and seoResources.urlId != ''">
+                and url_id= #{seoResources.urlId}
+            </if>
+            <if test="seoResources.status!=null and seoResources.status != ''">
+                and status= #{seoResources.status}
+            </if>
+            order by id
+        </where>
+    </select>
+
+
+</mapper>
